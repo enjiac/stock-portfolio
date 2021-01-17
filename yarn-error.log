@@ -1,8 +1,8 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.22.10/libexec/bin/yarn.js add LookUp
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.22.10/libexec/bin/yarn.js add unpkg.com
 
 PATH: 
-  /Users/richardcao/Desktop/stock-portfolio/node_modules/.bin:/Users/richardcao/Desktop/node_modules/.bin:/Users/richardcao/node_modules/.bin:/Users/node_modules/.bin:/node_modules/.bin:/usr/local/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/node-gyp-bin:/Users/richardcao/.npm-global/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Users/richardcao/.npm-global/bin
+  /Users/richardcao/Library/Mobile Documents/com~apple~CloudDocs/GitHub/stock-portfolio/node_modules/.bin:/Users/richardcao/Library/Mobile Documents/com~apple~CloudDocs/GitHub/node_modules/.bin:/Users/richardcao/Library/Mobile Documents/com~apple~CloudDocs/node_modules/.bin:/Users/richardcao/Library/Mobile Documents/node_modules/.bin:/Users/richardcao/Library/node_modules/.bin:/Users/richardcao/node_modules/.bin:/Users/node_modules/.bin:/node_modules/.bin:/usr/local/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/node-gyp-bin:/Users/richardcao/.npm-global/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Users/richardcao/.npm-global/bin
 
 Yarn version: 
   1.22.10
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/LookUp: Not found
+  Error: https://registry.yarnpkg.com/unpkg.com: Not found
       at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.22.10/libexec/lib/cli.js:66988:18)
       at Request.self.callback (/usr/local/Cellar/yarn/1.22.10/libexec/lib/cli.js:140749:22)
       at Request.emit (events.js:315:20)
@@ -28,12 +28,13 @@ Trace:
 
 npm manifest: 
   {
-    "name": "adopt-me",
+    "name": "stock-portfolio",
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
     "scripts": {
       "dev": "parcel src/index.html",
+      "build": "parcel build src/index.html",
       "format": "prettier \"src/**/*.{js,html}\" --write",
       "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
       "test": "echo \"Error: no test specified\" && exit 1"
@@ -54,6 +55,7 @@ npm manifest:
     },
     "dependencies": {
       "@frontendmasters/pet": "^1.0.3",
+      "antd": "^4.10.2",
       "axios": "^0.18.1",
       "parcel": "^1.12.4",
       "react": "^17.0.1",

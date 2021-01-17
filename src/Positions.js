@@ -59,12 +59,12 @@ const Positions = () => {
       key: "price",
     },
     {
-      title: "No. Shares",
+      title: "Shares",
       dataIndex: "numShares",
       key: "numShares",
     },
     {
-      title: "Position Size in $",
+      title: "Market Value",
       dataIndex: "psize",
       key: "psize",
     },
@@ -78,17 +78,14 @@ const Positions = () => {
   for (let i = 0; i < dataSource.length; i++) {
     var temp = 0;
     if (i === dataSource.length - 1) {
-      console.log("a");
       temp = dataSource[i].psize;
     } else {
-      const [p, setP] = useState(0);
+      const [p, setPrice] = useState(0);
       useEffect(() => {
         FetchPrice(dataSource[i].ticker).then((price) => {
-          setP(price);
-          console.log("b");
+          setPrice(price);
         });
       }, []);
-      console.log("c");
       dataSource[i].price = p;
       temp = (dataSource[i].price * dataSource[i].numShares).toFixed(2);
       dataSource[i].psize = temp;
@@ -103,6 +100,7 @@ const Positions = () => {
   return (
     <>
       <Table
+        className="table"
         dataSource={dataSource}
         columns={columns}
         pagination={false}

@@ -1,13 +1,19 @@
-body {
-  font-family: "Roboto Condensed", sans-serif;
+@import "../node_modules/antd/dist/antd.dark.css";
+
+@font-face {
+  font-family: "Helvetica" !important;
+  src: "./helvetica.ttf";
 }
 
 .header {
   margin-top: 50px;
-  margin-left: 00px;
+  margin-left: 0px;
   margin-bottom: 30px;
+  font-size: 80px;
+  color: white;
 }
 
 .total {
-  margin-top: 10px;
+  margin-top: 15px;
+  margin-left: 2px;
 }

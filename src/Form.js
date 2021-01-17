@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "antd/dist/antd.css";
 import { Form, Input, Button, Radio } from "antd";
 
 const FormLayoutDemo = () => {
@@ -41,12 +40,12 @@ const FormLayoutDemo = () => {
         }}
         onValuesChange={onFormLayoutChange}
       >
-        <Form.Item label="Action" name="layout">
-          <Radio.Group value="vertical">
-            <Radio.Button value="horizontal">Buy</Radio.Button>
-            <Radio.Button value="vertical">Sell</Radio.Button>
-            <Radio.Button value="inline">Deposit</Radio.Button>
-            <Radio.Button value="inline">Withdraw</Radio.Button>
+        <Form.Item label="Action">
+          <Radio.Group defaultValue="buy" buttonStyle="solid">
+            <Radio.Button value="buy">Buy</Radio.Button>
+            <Radio.Button value="sell">Sell</Radio.Button>
+            <Radio.Button value="deposit">Deposit</Radio.Button>
+            <Radio.Button value="withdraw">Withdraw</Radio.Button>
           </Radio.Group>
         </Form.Item>
         <Form.Item label="Ticker">

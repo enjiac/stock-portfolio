@@ -1,6 +1,5 @@
 import React from "react";
 import { render } from "react-dom";
-//import "antd/dist/antd.css";
 import { Table, Col, Row } from "antd";
 import FormLayoutDemo from "./Form";
 import Positions from "./Positions";
@@ -10,9 +9,11 @@ const App = () => {
     <div>
       <Row justify="center">
         <Col span={20}>
-          <h1 className="header" justify="left">
-            Portfolio
-          </h1>
+          <div className="boxed">
+            <h1 className="header" justify="left">
+              <b>PORTFOLIO*</b>
+            </h1>
+          </div>
           <Positions />
           <FormLayoutDemo />
         </Col>
