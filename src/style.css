@@ -4,6 +4,10 @@ body {
 
 .header {
   margin-top: 50px;
-  margin-left: 20px;
+  margin-left: 00px;
   margin-bottom: 30px;
+}
+
+.total {
+  margin-top: 10px;
 }
