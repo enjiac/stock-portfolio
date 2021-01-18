@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { FetchPrice } from "./FetchPrice.js";
 import { Table } from "antd";
+import axios from "axios";
 
 const Positions = () => {
-  var sum = 0;
-
   const dataSource = [
     {
       key: "1",
@@ -14,7 +12,7 @@ const Positions = () => {
     {
       key: "2",
       ticker: "FB",
-      numShares: 24,
+      numShares: 25,
     },
     {
       key: "3",
@@ -38,13 +36,20 @@ const Positions = () => {
     },
     {
       key: "7",
+      ticker: "TCEHY",
+      numShares: "15",
+      price: 82.25,
+      MarketValue: 1233.75,
+    },
+    {
+      key: "8",
       ticker: "MNSO",
       numShares: 20,
     },
     {
-      key: "8",
+      key: "9",
       ticker: "USD",
-      psize: 2637,
+      MarketValue: 2392,
     },
   ];
   const columns = [
@@ -59,42 +64,51 @@ const Positions = () => {
       key: "price",
     },
     {
-      title: "Shares",
+      title: "#",
       dataIndex: "numShares",
       key: "numShares",
     },
     {
       title: "Market Value",
-      dataIndex: "psize",
-      key: "psize",
+      dataIndex: "MarketValue",
+      key: "MarketValue",
     },
     {
-      title: "% of total",
+      title: "%",
       dataIndex: "percentage",
       key: "percentage",
     },
   ];
 
-  for (let i = 0; i < dataSource.length; i++) {
-    var temp = 0;
-    if (i === dataSource.length - 1) {
-      temp = dataSource[i].psize;
-    } else {
-      const [p, setPrice] = useState(0);
-      useEffect(() => {
-        FetchPrice(dataSource[i].ticker).then((price) => {
-          setPrice(price);
-        });
+  dataSource.forEach((position) => {
+    if (position.ticker != "USD" && position.ticker != "TCEHY") {
+      const [data, setData] = useState(0);
+      useEffect(async () => {
+        const result = await axios.get(
+          `https://data.alpaca.markets/v1/last/stocks/${position.ticker}`,
+          {
+            headers: {
+              "APCA-API-KEY-ID": "PKPGDVLWWRB8TR64AJXM",
+              "APCA-API-SECRET-KEY": "zpAlXSlqRuTUIRdsQVropFrSBqUDerwMh7VJv43J",
+            },
+          }
+        );
+        setData(result.data.last.price);
       }, []);
-      dataSource[i].price = p;
-      temp = (dataSource[i].price * dataSource[i].numShares).toFixed(2);
-      dataSource[i].psize = temp;
+      console.log(data);
+      position.price = data;
+      position.MarketValue = (position.price * position.numShares).toFixed(2);
     }
-    sum += parseFloat(temp);
-  }
-  console.log(sum);
-  dataSource.forEach((item) => {
-    item.percentage = parseFloat((item.psize / sum) * 100).toFixed(2);
+  });
+
+  var sum = dataSource.reduce((currentTotalValue, position) => {
+    return parseFloat(position.MarketValue) + currentTotalValue;
+  }, 0);
+
+  dataSource.forEach((position) => {
+    position.percentage = parseFloat(
+      (position.MarketValue / sum) * 100
+    ).toFixed(2);
   });
 
   return (
@@ -105,8 +119,12 @@ const Positions = () => {
         columns={columns}
         pagination={false}
         bordered
+        loading={false}
+        scroll={{ x: 500 }}
       />
-      <h3 className="total"> Total: {sum}</h3>
+      <div className="total">
+        <b>TOTAL: {sum}</b>
+      </div>
     </>
   );
 };
