@@ -80,52 +80,74 @@ const Positions = () => {
     },
   ];
 
+  var batchSymbols = "";
   dataSource.forEach((position) => {
     if (position.ticker != "USD" && position.ticker != "TCEHY") {
-      const [data, setData] = useState(0);
-      useEffect(async () => {
-        const result = await axios.get(
-          `https://data.alpaca.markets/v1/last/stocks/${position.ticker}`,
-          {
-            headers: {
-              "APCA-API-KEY-ID": "PKPGDVLWWRB8TR64AJXM",
-              "APCA-API-SECRET-KEY": "zpAlXSlqRuTUIRdsQVropFrSBqUDerwMh7VJv43J",
-            },
-          }
-        );
-        setData(result.data.last.price);
-      }, []);
-      console.log(data);
-      position.price = data;
-      position.MarketValue = (position.price * position.numShares).toFixed(2);
+      if (batchSymbols != "") {
+        batchSymbols = batchSymbols + "," + position.ticker;
+      } else {
+        batchSymbols += position.ticker;
+      }
     }
   });
 
-  var sum = dataSource.reduce((currentTotalValue, position) => {
-    return parseFloat(position.MarketValue) + currentTotalValue;
-  }, 0);
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  useEffect(async () => {
+    const result = await axios.get(
+      `https://cloud.iexapis.com/stable/stock/market/batch?symbols=${batchSymbols}&types=quote&token=pk_fae69adeb4724a188d13877e90dbce7b`
+    );
+    setData(result.data);
+    setLoading(false);
+  }, []);
 
-  dataSource.forEach((position) => {
-    position.percentage = parseFloat(
-      (position.MarketValue / sum) * 100
-    ).toFixed(2);
-  });
+  function setEverything(dSource, database) {
+    dSource.forEach((position) => {
+      if (position.ticker != "USD" && position.ticker != "TCEHY") {
+        position.price = database[position.ticker].quote.latestPrice;
+        position.MarketValue = (position.price * position.numShares).toFixed(2);
+      }
+    });
 
-  return (
-    <>
+    var sum = dSource.reduce((currentTotalValue, position) => {
+      return parseFloat(position.MarketValue) + currentTotalValue;
+    }, 0);
+
+    dSource.forEach((position) => {
+      position.percentage = parseFloat(
+        (position.MarketValue / sum) * 100
+      ).toFixed(2);
+    });
+
+    return dSource;
+  }
+
+  if (loading) {
+    return (
       <Table
         className="table"
         dataSource={dataSource}
         columns={columns}
         pagination={false}
         bordered
+        loading={true}
+        scroll={{ x: 500 }}
+      />
+    );
+  }
+  return (
+    <div>
+      <Table
+        className="table"
+        dataSource={setEverything(dataSource, data)}
+        columns={columns}
+        pagination={false}
+        bordered
         loading={false}
         scroll={{ x: 500 }}
       />
-      <div className="total">
-        <b>TOTAL: {sum}</b>
-      </div>
-    </>
+      <div className="total">{/* <b>TOTAL: {sum}</b> */}</div>
+    </div>
   );
 };
 
