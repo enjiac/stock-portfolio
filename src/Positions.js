@@ -34,13 +34,13 @@ const Positions = () => {
       ticker: "MO",
       numShares: 35,
     },
-    {
-      key: "7",
-      ticker: "TCEHY",
-      numShares: "15",
-      price: 82.25,
-      MarketValue: 1233.75,
-    },
+    // {
+    //   key: "7",
+    //   ticker: "TCEHY",
+    //   numShares: "15",
+    //   price: 82.25,
+    //   MarketValue: 1233.75,
+    // },
     {
       key: "8",
       ticker: "MNSO",
@@ -49,7 +49,7 @@ const Positions = () => {
     {
       key: "9",
       ticker: "USD",
-      MarketValue: 2392,
+      MarketValue: 3724.15,
     },
   ];
   const columns = [
@@ -64,10 +64,16 @@ const Positions = () => {
       key: "price",
     },
     {
+      title: "%Change",
+      dataIndex: "percentChange",
+      key: "percentChange",
+    },
+    {
       title: "#",
       dataIndex: "numShares",
       key: "numShares",
     },
+
     {
       title: "Market Value",
       dataIndex: "MarketValue",
@@ -99,12 +105,20 @@ const Positions = () => {
     );
     setData(result.data);
     setLoading(false);
+    console.log(result.data);
   }, []);
 
   function setEverything(dSource, database) {
     dSource.forEach((position) => {
       if (position.ticker != "USD" && position.ticker != "TCEHY") {
         position.price = database[position.ticker].quote.latestPrice;
+        position.percentChange =
+          (
+            (+database[position.ticker].quote.latestPrice /
+              +database[position.ticker].quote.previousClose -
+              1) *
+            100
+          ).toFixed(2) + "%";
         position.MarketValue = (position.price * position.numShares).toFixed(2);
       }
     });
@@ -118,8 +132,14 @@ const Positions = () => {
         (position.MarketValue / sum) * 100
       ).toFixed(2);
     });
-
     return dSource;
+  }
+
+  function getSum(dSource) {
+    var sum = dSource.reduce((currentTotalValue, position) => {
+      return parseFloat(position.MarketValue) + currentTotalValue;
+    }, 0);
+    return sum;
   }
 
   if (loading) {
@@ -146,7 +166,9 @@ const Positions = () => {
         loading={false}
         scroll={{ x: 500 }}
       />
-      <div className="total">{/* <b>TOTAL: {sum}</b> */}</div>
+      <div className="total">
+        <b>TOTAL: {getSum(dataSource)}</b>
+      </div>
     </div>
   );
 };

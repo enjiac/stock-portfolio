@@ -8,7 +8,7 @@ const App = () => {
   return (
     <div>
       <Row justify="center">
-        <Col span={20}>
+        <Col span={22}>
           <div className="padding"></div>
           <div className="boxed">
             <div className="div-block"></div>

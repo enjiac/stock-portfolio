@@ -68,8 +68,10 @@
   /* border-top: 4px solid white; */
   border-bottom: 4px solid white;
   display: inline-flex;
+  color: white;
 }
 
 .table {
   border: 1px solid white;
+  color: white;
 }
