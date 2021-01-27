@@ -124,7 +124,7 @@ const Positions = () => {
     });
 
     var sum = dSource.reduce((currentTotalValue, position) => {
-      return parseFloat(position.MarketValue) + currentTotalValue;
+      return +position.MarketValue + currentTotalValue;
     }, 0);
 
     dSource.forEach((position) => {
