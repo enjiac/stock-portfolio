@@ -6,50 +6,47 @@ const Positions = () => {
   const dataSource = [
     {
       key: "1",
-      ticker: "SPOT",
-      numShares: 25,
+      ticker: "ROKU",
+      numShares: 15,
     },
     {
       key: "2",
-      ticker: "FB",
-      numShares: 25,
+      ticker: "GOOS",
+      numShares: 105,
     },
     {
       key: "3",
-      ticker: "BRK.B",
-      numShares: 25,
+      ticker: "AMZN",
+      numShares: 1,
     },
     {
       key: "4",
-      ticker: "AAPL",
-      numShares: 16,
+      ticker: "WB",
+      numShares: 60,
     },
     {
       key: "5",
-      ticker: "RH",
-      numShares: 3,
+      ticker: "TCEHY",
+      numShares: 30,
+      price: 89.48,
+      MarketValue: 2684.4,
+      previousCloseValue: 2684.4,
     },
     {
       key: "6",
-      ticker: "MO",
-      numShares: 35,
-    },
-    // {
-    //   key: "7",
-    //   ticker: "TCEHY",
-    //   numShares: "15",
-    //   price: 82.25,
-    //   MarketValue: 1233.75,
-    // },
-    {
-      key: "8",
-      ticker: "MNSO",
+      ticker: "DAL",
       numShares: 20,
     },
     {
-      key: "9",
+      key: "7",
+      ticker: "UAL",
+      numShares: 17,
+    },
+    {
+      key: "8",
       ticker: "USD",
-      MarketValue: 3724.15,
+      MarketValue: 6712.27,
+      previousCloseValue: 6712.27,
     },
   ];
   const columns = [
@@ -97,12 +94,23 @@ const Positions = () => {
     }
   });
 
+  const [tableSize, setTableSize] = useState(
+    window.innerWidth < 500 ? "middle" : ""
+  );
+
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   useEffect(async () => {
     const result = await axios.get(
       `https://cloud.iexapis.com/stable/stock/market/batch?symbols=${batchSymbols}&types=quote&token=pk_fae69adeb4724a188d13877e90dbce7b`
     );
+    window.addEventListener("resize", () => {
+      if (window.innerWidth < 500) {
+        setTableSize("middle");
+      } else {
+        setTableSize("");
+      }
+    });
     setData(result.data);
     setLoading(false);
     console.log(result.data);
@@ -112,14 +120,14 @@ const Positions = () => {
     dSource.forEach((position) => {
       if (position.ticker != "USD" && position.ticker != "TCEHY") {
         position.price = database[position.ticker].quote.latestPrice;
+        position.previousClose = database[position.ticker].quote.previousClose;
         position.percentChange =
-          (
-            (+database[position.ticker].quote.latestPrice /
-              +database[position.ticker].quote.previousClose -
-              1) *
-            100
-          ).toFixed(2) + "%";
+          ((+position.price / +position.previousClose - 1) * 100).toFixed(2) +
+          "%";
         position.MarketValue = (position.price * position.numShares).toFixed(2);
+        position.previousCloseValue = (
+          +position.previousClose * position.numShares
+        ).toFixed(2);
       }
     });
 
@@ -136,10 +144,22 @@ const Positions = () => {
   }
 
   function getSum(dSource) {
-    var sum = dSource.reduce((currentTotalValue, position) => {
+    var todaySum = dSource.reduce((currentTotalValue, position) => {
       return parseFloat(position.MarketValue) + currentTotalValue;
     }, 0);
-    return sum.toFixed(2);
+    return todaySum.toFixed(2);
+  }
+
+  function getChange(dSource) {
+    var previousCloseSum = dSource.reduce((currentTotal, position) => {
+      return parseFloat(position.previousCloseValue) + currentTotal;
+    }, 0);
+    var change =
+      (+(getSum(dSource) / +previousCloseSum - 1) * 100).toFixed(2) + "%";
+    if (parseFloat(change) > 0) {
+      change = "+" + change;
+    }
+    return change;
   }
 
   if (loading) {
@@ -165,9 +185,11 @@ const Positions = () => {
         bordered
         loading={false}
         scroll={{ x: 500 }}
+        size={tableSize}
       />
       <div className="total">
         <b>TOTAL: {getSum(dataSource)}</b>
+        <b> ({getChange(dataSource)})</b>
       </div>
     </div>
   );

@@ -17,7 +17,7 @@ const App = () => {
           <div className="padding"></div>
           <Positions />
           <div className="padding"></div>
-          <FormLayoutDemo />
+          {/* <FormLayoutDemo /> */}
         </Col>
       </Row>
     </div>
