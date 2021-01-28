@@ -104,7 +104,7 @@ const Positions = () => {
     const result = await axios.get(
       `https://cloud.iexapis.com/stable/stock/market/batch?symbols=${batchSymbols}&types=quote&token=pk_fae69adeb4724a188d13877e90dbce7b`
     );
-    window.addEventListener("resize", () => {
+    window.addEventListener("resize", function handleResize() {
       if (window.innerWidth < 500) {
         setTableSize("middle");
       } else {
@@ -114,6 +114,9 @@ const Positions = () => {
     setData(result.data);
     setLoading(false);
     console.log(result.data);
+    return (_) => {
+      window.removeEventListener("resize", handleResize());
+    };
   }, []);
 
   function setEverything(dSource, database) {
