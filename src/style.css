@@ -19,11 +19,11 @@
 @media screen and (max-width: 850px) {
   .div-block {
     width: 25px;
-    height: 10vw;
+    height: 12vw;
   }
   .header {
     font-size: 8vw;
-    height: 10vw;
+    height: 12vw;
   }
   .padding {
     height: 25px;
@@ -31,19 +31,26 @@
 }
 @media screen and (max-width: 500px) {
   .header {
+    padding: 0px;
     max-width: 100%;
     flex-grow: 1;
+  }
+  .table {
+    border: none;
+  }
+  .total {
+    font-size: 5vw;
   }
 }
 
 @media screen and (min-width: 851px) {
   .div-block {
     width: 3vw;
-    height: 5vw;
+    height: 7vw;
   }
   .header {
     font-size: 5vw;
-    height: 5vw;
+    height: 7vw;
   }
   .padding {
     height: 50px;
@@ -52,8 +59,8 @@
 
 .header {
   margin-bottom: 0px;
-  /* padding-left: 20px; */
-  /* padding-right: 20px; */
+  padding-left: 20px;
+  padding-right: 20px;
   color: white;
   display: flex;
   border: 4px solid white;
@@ -66,13 +73,13 @@
 .total {
   margin-top: 15px;
   margin-left: 2px;
-  font-size: 5vw;
+  font-size: 25px;
   border-bottom: 4px solid white;
   display: inline-flex;
   color: white;
 }
 
 .table {
-  border: 1px solid white;
+  /* border: 1px solid white; */
   color: white;
 }
