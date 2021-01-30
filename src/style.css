@@ -16,6 +16,18 @@
   background-color: #177ddc !important;
 }
 
+.login {
+  border-top: 4px solid white;
+  border-bottom: 4px solid white;
+  border-right: 4px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-weight: bold;
+}
+
 @media screen and (max-width: 850px) {
   .div-block {
     width: 25px;
@@ -39,7 +51,7 @@
     border: none;
   }
   .total {
-    font-size: 5vw;
+    font-size: 3vw;
   }
 }
 
@@ -67,19 +79,15 @@
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  /* max-width: 70%; */
 }
 
 .total {
   margin-top: 15px;
   margin-left: 2px;
   font-size: 25px;
-  border-bottom: 4px solid white;
-  display: inline-flex;
   color: white;
 }
 
 .table {
-  /* border: 1px solid white; */
   color: white;
 }

@@ -10,9 +10,13 @@ const App = () => {
       <Row justify="center">
         <Col span={22}>
           <div className="padding"></div>
+          <img href="./portfolio.svg" />
           <div className="boxed">
             <div className="div-block"></div>
             <div className="header">PORTFOLIO*</div>
+            <div className="login">
+              <a>login</a>
+            </div>
           </div>
           <div className="padding"></div>
           <Positions />

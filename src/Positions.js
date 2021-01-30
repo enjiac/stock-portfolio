@@ -54,6 +54,7 @@ const Positions = () => {
       title: "Ticker",
       dataIndex: "ticker",
       key: "ticker",
+      fixed: "left",
     },
     {
       title: "Price",
@@ -162,7 +163,7 @@ const Positions = () => {
     if (parseFloat(change) > 0) {
       change = "+" + change;
     }
-    return change;
+    return "(" + change + ")";
   }
 
   if (loading) {
@@ -191,8 +192,9 @@ const Positions = () => {
         size={tableSize}
       />
       <div className="total">
-        <b>TOTAL: {getSum(dataSource)}</b>
-        <b> ({getChange(dataSource)})</b>
+        <p>
+          Total: {getSum(dataSource)}&nbsp;{getChange(dataSource)}
+        </p>
       </div>
     </div>
   );
